@@ -133,9 +133,19 @@ namespace PocoHttp.Internal.LinqHelper
 
 		protected override Expression VisitMember(MemberExpression m)
 		{
-			if (m.Expression != null && m.Expression.NodeType == ExpressionType.Parameter)
+			if (m.Expression == null)
+				throw new ArgumentNullException("m.Expression");
+
+			if (m.Expression.NodeType == ExpressionType.Parameter)
 			{
 				sb.Append(m.Member.Name);
+				return m;
+			}
+			else if (m.Expression.NodeType == ExpressionType.Constant)
+			{
+				// sb.Append(((ConstantExpression) m.Expression).Value);
+				var value = ((ConstantExpression) m.Expression).Value;
+				Visit(m.Expression);
 				return m;
 			}
 			throw new NotSupportedException(string.Format("The member '{0}' is not supported", m.Member.Name));
