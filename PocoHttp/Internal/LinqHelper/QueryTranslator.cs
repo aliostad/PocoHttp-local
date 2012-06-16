@@ -17,6 +17,7 @@ namespace PocoHttp.Internal.LinqHelper
 		internal string Translate(Expression expression)
 		{
 			this.sb = new StringBuilder();
+			expression = Evaluator.PartialEval(expression);
 			this.Visit(expression);
 			return this.sb.ToString();
 		}
@@ -71,22 +72,22 @@ namespace PocoHttp.Internal.LinqHelper
 					sb.Append(" OR");
 					break;
 				case ExpressionType.Equal:
-					sb.Append(" = ");
+					sb.Append(" eq ");
 					break;
 				case ExpressionType.NotEqual:
-					sb.Append(" <> ");
+					sb.Append(" ne ");
 					break;
 				case ExpressionType.LessThan:
-					sb.Append(" < ");
+					sb.Append(" lt ");
 					break;
 				case ExpressionType.LessThanOrEqual:
-					sb.Append(" <= ");
+					sb.Append(" le ");
 					break;
 				case ExpressionType.GreaterThan:
-					sb.Append(" > ");
+					sb.Append(" gt ");
 					break;
 				case ExpressionType.GreaterThanOrEqual:
-					sb.Append(" >= ");
+					sb.Append(" ge ");
 					break;
 				default:
 					throw new NotSupportedException(string.Format("The binary operator '{0}' is not supported", b.NodeType));
