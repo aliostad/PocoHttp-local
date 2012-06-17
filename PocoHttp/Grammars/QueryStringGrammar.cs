@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PocoHttp.Grammars
 {
-	public abstract class QueryStringParameterGrammar : IHttpDataGrammar
+	public abstract class QueryStringGrammar : IHttpDataGrammar
 	{
 		public void Compose(Expression expression, HttpRequestMessage request)
 		{
@@ -15,7 +15,7 @@ namespace PocoHttp.Grammars
 			
 				request.RequestUri = new Uri(request.RequestUri.ToString() + 
 					((request.RequestUri.ToString().IndexOf("?") >= 0) ? "&" : "?")
-					+ queryString);
+					+ queryString, request.RequestUri.IsAbsoluteUri ? UriKind.Absolute : UriKind.Relative);
 			
 		}
 

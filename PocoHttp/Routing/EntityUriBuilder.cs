@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PocoHttp.Routing
 {
-	public class PocoUriBuilder : IPocoUriBuilder
+	public class EntityUriBuilder : IEntityUriBuilder
 	{
 
 		private ConcurrentDictionary<Type,EntityUriAttribute> _entityUriAttributesCache

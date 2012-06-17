@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text;
+using NUnit.Framework;
 using PocoHttp.Internal.LinqHelper;
-using Xunit;
 
 namespace PocoHttp.Tests
 {
@@ -14,11 +14,12 @@ namespace PocoHttp.Tests
 		public string Name { get; set; }
 	}
 
+	[TestFixture]
 	public class GeneralTests
 	{
 
 
-		[Fact]
+		[Test]
 		public void TestReferrences()
 		{
 			var httpClient = new HttpClient();

@@ -5,10 +5,10 @@ using System.Text;
 
 namespace PocoHttp.Routing
 {
-	public static class IPocoUriBuilderExtensions
+	public static class IEntityUriBuilderExtensions
 	{
-		public static Uri BuildUri<TEntity>(this IPocoUriBuilder uriBuilder, 
-			bool usePluralUris, string overrideUrl)
+		public static Uri BuildUri<TEntity>(this IEntityUriBuilder uriBuilder, 
+			bool usePluralUris)
 		{
 			return uriBuilder.BuildUri(typeof (TEntity), usePluralUris);
 		}

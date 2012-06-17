@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PocoHttp.Routing
 {
-	public interface IPocoUriBuilder
+	public interface IEntityUriBuilder
 	{
 		Uri BuildUri(Type type, bool usePluralUris);
 	}

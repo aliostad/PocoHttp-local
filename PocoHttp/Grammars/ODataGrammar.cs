@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PocoHttp.Grammars
 {
-	public class ODataGrammar : QueryStringParameterGrammar
+	public class ODataGrammar : QueryStringGrammar
 	{
 		protected override string GetQueryString(Expression expression)
 		{
