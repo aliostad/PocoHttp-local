@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using PocoHttp.Grammars;
+using PocoHttp.Internal;
+using PocoHttp.Internal.LinqHelper;
 
 namespace PocoHttp
 {
@@ -11,34 +13,51 @@ namespace PocoHttp
 	{
 		private IPocoRuntime _pocoRuntime;
 		private HttpClient _httpClient;
-		private HttpMessageHandler _handler;
-		private IHttpDataGrammar _grammar;
 
 		public PocoClient() : this(PocoRuntime.Current)
 		{
 			
 		}
 
-		public PocoClient(IPocoRuntime pocoRuntime) : this(pocoRuntime, pocoRuntime.DefaultGrammar, null, false)
+		public PocoClient(IPocoRuntime runtime)
 		{
-			
-		}
-
-		public PocoClient(IPocoRuntime pocoRuntime, IHttpDataGrammar grammar)
-			: this(pocoRuntime, grammar, null, false)
-		{
-			
-		}
-
-		public PocoClient(IPocoRuntime pocoRuntime, IHttpDataGrammar grammar, 
-			HttpMessageHandler handler, bool disposeHandler)
-		{
-			_grammar = grammar;
-			_handler = handler;
-			if(handler == null)
+			_pocoRuntime = runtime;
+			if (runtime.Handler == null)
 				_httpClient = new HttpClient();
 			else
-				_httpClient = new HttpClient(handler, disposeHandler);
+				_httpClient = new HttpClient(runtime.Handler, runtime.DisposeHandler);
+	
+		}
+
+		public IQueryable Context(Type entityType, Uri uri)
+		{
+
+			if(BaseAddress == null &&
+				(uri == null || !uri.IsAbsoluteUri))
+				throw new InvalidOperationException("BaseAddress is null and uri is null or relative. Set the base address or provide absolute uri.");
+
+			var request = new HttpRequestMessage(HttpMethod.Get, uri);
+
+			var httpProvider = new HttpProvider(
+				new HttpQueryContext()
+					{
+						EntityType = entityType,
+						HttpClient = _httpClient,
+						Runtime = _pocoRuntime,
+						Request = request
+					}
+				);
+
+			return (IQueryable)Activator.CreateInstance(typeof(Query<>).MakeGenericType(entityType), 
+				new object[] { httpProvider });
+			
+		}
+
+
+		public IQueryable Context(Type entityType)
+		{
+			return Context(entityType,
+				_pocoRuntime.UriBuilder.BuildUri(entityType, _pocoRuntime.UsePluralUrls));
 		}
 
 		public Uri BaseAddress
@@ -47,20 +66,10 @@ namespace PocoHttp
 			set { _httpClient.BaseAddress = value; }
 		}
 
-		public IQueryable<TEntity> Context<TEntity>()
-		{
-			throw new NotImplementedException();
-		}
-
-		public IQueryable Context(Type t)
-		{
-			throw new NotImplementedException();
-		}
-
 		public void Dispose()
 		{
-			_httpClient.Dispose();
-			
+			if(_httpClient!=null)
+				_httpClient.Dispose();		
 		}
 	}
 }

@@ -58,6 +58,8 @@
     <Compile Include="Grammars\IHttpDataGrammar.cs" />
     <Compile Include="Grammars\QueryStringGrammar.cs" />
     <Compile Include="Internal\Helper\ChainOfResponsibility.cs" />
+    <Compile Include="Internal\HttpProvider.cs" />
+    <Compile Include="Internal\HttpQueryContext.cs" />
     <Compile Include="Internal\LinqHelper\Evaluator.cs" />
     <Compile Include="Internal\LinqHelper\Query.cs" />
     <Compile Include="Internal\LinqHelper\QueryProvider.cs" />
@@ -65,13 +67,14 @@
     <Compile Include="Internal\LinqHelper\TypeSystem.cs" />
     <Compile Include="Internal\ODataVisitor.cs" />
     <Compile Include="IPocoClient.cs" />
+    <Compile Include="Extensions\IPocoClientExtensions.cs" />
     <Compile Include="IPocoRuntime.cs" />
     <Compile Include="PocoClient.cs" />
     <Compile Include="PocoRuntime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\EntityUriAttribute.cs" />
     <Compile Include="Routing\IEntityUriBuilder.cs" />
-    <Compile Include="Routing\IEntityUriBuilderExtensions.cs" />
+    <Compile Include="Extensions\IEntityUriBuilderExtensions.cs" />
     <Compile Include="Routing\EntityUriBuilder.cs" />
   </ItemGroup>
   <ItemGroup>

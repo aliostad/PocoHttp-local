@@ -107,7 +107,7 @@ namespace PocoHttp.Internal
 			switch (u.NodeType)
 			{
 				case ExpressionType.Not:
-					sb.Append(" NOT ");
+					sb.Append(" not ");
 					this.Visit(u.Operand);
 					break;
 				default:
@@ -161,9 +161,7 @@ namespace PocoHttp.Internal
 			IQueryable q = c.Value as IQueryable;
 			if (q != null)
 			{
-				// assume constant nodes w/ IQueryables are table references
-				sb.Append("SELECT * FROM ");
-				sb.Append(q.ElementType.Name);
+				//throw new NotSupportedException("Constant from IQueryable not supported."); // TODO: lool at this scenario
 			}
 			else if (c.Value == null)
 			{

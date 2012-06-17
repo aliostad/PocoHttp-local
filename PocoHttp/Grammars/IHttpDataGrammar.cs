@@ -10,5 +10,6 @@ namespace PocoHttp.Grammars
 	public interface IHttpDataGrammar
 	{
 		void Compose(Expression expression, HttpRequestMessage message);
+		string GetQueryText(Expression expression);
 	}
 }

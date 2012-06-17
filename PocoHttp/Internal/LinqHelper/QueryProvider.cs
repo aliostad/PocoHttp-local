@@ -14,9 +14,9 @@ namespace PocoHttp.Internal.LinqHelper
 		{
 		}
 
-		IQueryable<S> IQueryProvider.CreateQuery<S>(Expression expression)
+		IQueryable<T> IQueryProvider.CreateQuery<T>(Expression expression)
 		{
-			return new Query<S>(this, expression);
+			return new Query<T>(this, expression);
 		}
 
 		IQueryable IQueryProvider.CreateQuery(Expression expression)
@@ -32,9 +32,9 @@ namespace PocoHttp.Internal.LinqHelper
 			}
 		}
 
-		S IQueryProvider.Execute<S>(Expression expression)
+		T IQueryProvider.Execute<T>(Expression expression)
 		{
-			return (S)this.Execute(expression);
+			return (T)this.Execute(expression);
 		}
 
 		object IQueryProvider.Execute(Expression expression)

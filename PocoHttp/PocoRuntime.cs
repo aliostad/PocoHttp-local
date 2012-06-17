@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using PocoHttp.Grammars;
+using PocoHttp.Routing;
 
 namespace PocoHttp
 {
@@ -13,8 +15,12 @@ namespace PocoHttp
 
 		private PocoRuntime()
 		{
-			DefaultGrammar = new ODataGrammar();
+			Grammar = new ODataGrammar();
 			UsePluralUrls = true;
+			UriBuilder = new EntityUriBuilder();
+			RequestSetup = (request) => {};
+			DisposeHandler = true;
+			CustomFormatters = new MediaTypeFormatter[0];
 		}
 
 		public static PocoRuntime Current
@@ -22,11 +28,21 @@ namespace PocoHttp
 			get { return _current; }
 		}
 
-		public IHttpDataGrammar DefaultGrammar {get; set; }
+		public IHttpDataGrammar Grammar {get; set; }
 
 		public bool UsePluralUrls { get; set; }
 
-		public Func<HttpRequestMessage> RequestBuilder { get; set; }
+		public IEntityUriBuilder UriBuilder { get; set; }
+
+		public Action<HttpRequestMessage> RequestSetup { get; set; }
+
+		public HttpMessageHandler Handler { get; set; }
+
+		public bool DisposeHandler { get; set; }
+
+		public IEnumerable<MediaTypeFormatter> CustomFormatters { get; set; }
+		
+		public Func<Uri, HttpRequestMessage> RequestBuilder { get; set; }
 		
 	}
 }
