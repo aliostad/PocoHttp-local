@@ -4,62 +4,51 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using NUnit.Framework;
-using PocoHttp.Grammars;
 using PocoHttp.Internal;
 using PocoHttp.Tests.Model;
 
 namespace PocoHttp.Tests.Grammar
 {
 	[TestFixture]
-	public class ODataGrammarTests
+	public class ODataFilterTests
 	{
 		[Test]
-		public void ComplexTest()
+		public void FilterTest_string()
 		{
 			var oDataVisitor = new ODataVisitor();
-			int count = 50;
-			int skip = 20;
-			string model = "X3";
+			string name1 = "ali";
 			Expression<Func<IQueryable<Car>, IEnumerable<Car>>> expression = (IQueryable<Car> data) =>
-				data.Where(x=>x.Model == model).Skip(skip).Take(count);
+				data.Where(x => x.Make == "Fiat");
 
 			var result = oDataVisitor.Translate(expression);
 			Console.WriteLine(result);
-			Assert.AreEqual("$filter=(Model eq 'X3')&$skip=20&$top=50", result);
+			Assert.AreEqual("$filter=(Make eq 'Fiat')", result);
 		}
 
 		[Test]
-		public void ComplexTest_withOrdering_Normal()
+		public void FilterTest_AND()
 		{
 			var oDataVisitor = new ODataVisitor();
-			int count = 50;
-			int skip = 20;
-			string model = "X3";
+			string name1 = "ali";
 			Expression<Func<IQueryable<Car>, IEnumerable<Car>>> expression = (IQueryable<Car> data) =>
-				data.Where(x => x.Model == model)
-				.Skip(skip)
-				.OrderBy(x=>x.Price);
+				data.Where(x => x.Make == "Fiat" & x.MaxSpeed == 130);
 
 			var result = oDataVisitor.Translate(expression);
 			Console.WriteLine(result);
-			Assert.AreEqual("$filter=(Model eq 'X3')&$skip=20&$orderby=Price", result);
+			Assert.AreEqual("$filter=((Make eq 'Fiat') AND (MaxSpeed eq 130))", result);
 		}
 
 		[Test]
-		public void ComplexTest_withOrdering_desc()
+		public void FilterTest_ORELSE()
 		{
 			var oDataVisitor = new ODataVisitor();
-			int count = 50;
-			int skip = 20;
-			string model = "X3";
+			string name1 = "ali";
 			Expression<Func<IQueryable<Car>, IEnumerable<Car>>> expression = (IQueryable<Car> data) =>
-				data.Where(x => x.Model == model)
-				.Skip(skip)
-				.OrderByDescending(x => x.Price);
+				data.Where(x => x.Make == "Fiat" || x.MaxSpeed == 130);
 
 			var result = oDataVisitor.Translate(expression);
 			Console.WriteLine(result);
-			Assert.AreEqual("$filter=(Model eq 'X3')&$skip=20&$orderby=Price DESC", result);
+			Assert.AreEqual("$filter=((Make eq 'Fiat') OR (MaxSpeed eq 130))", result);
 		}
 
 

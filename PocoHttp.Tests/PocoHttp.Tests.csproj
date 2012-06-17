@@ -58,8 +58,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneralTests.cs" />
+    <Compile Include="Grammar\ODataFilterTests.cs" />
     <Compile Include="Grammar\ODataGrammarTests.cs" />
+    <Compile Include="Grammar\ODataTopTests.cs" />
     <Compile Include="Grammar\QueryStringGrammarTests.cs" />
+    <Compile Include="Model\Car.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\UriBuilderTests.cs" />
   </ItemGroup>

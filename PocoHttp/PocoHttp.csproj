@@ -57,11 +57,13 @@
     <Compile Include="Grammars\ODataGrammar.cs" />
     <Compile Include="Grammars\IHttpDataGrammar.cs" />
     <Compile Include="Grammars\QueryStringGrammar.cs" />
+    <Compile Include="Internal\Helper\ChainOfResponsibility.cs" />
     <Compile Include="Internal\LinqHelper\Evaluator.cs" />
     <Compile Include="Internal\LinqHelper\Query.cs" />
     <Compile Include="Internal\LinqHelper\QueryProvider.cs" />
     <Compile Include="Internal\LinqHelper\QueryTranslator.cs" />
     <Compile Include="Internal\LinqHelper\TypeSystem.cs" />
+    <Compile Include="Internal\ODataVisitor.cs" />
     <Compile Include="IPocoClient.cs" />
     <Compile Include="IPocoRuntime.cs" />
     <Compile Include="PocoClient.cs" />
